@@ -1,0 +1,35 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maze Solver</title>
+</head>
+<body>
+    <h1>Upload a Maze Image</h1>
+    <form id="uploadForm" enctype="multipart/form-data" method="POST" action="/solve-maze">
+        <input type="file" name="mazeImage" accept="image/*" required>
+        <button type="submit">Solve Maze</button>
+    </form>
+    <div id="result">
+        <h2>Solved Maze:</h2>
+        <img id="solvedMazeImage" src="" alt="Solved Maze will appear here" style="max-width: 100%;">
+    </div>
+
+    <script>
+        const form = document.getElementById('uploadForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch('/solve-maze', {
+                method: 'POST',
+                body: formData
+            });
+            const blob = await response.blob();
+            document.getElementById('solvedMazeImage').src = URL.createObjectURL(blob);
+        });
+    </script>
+</body>
+</html>
